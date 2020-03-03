@@ -38,15 +38,4 @@ public class CensusAnalyser {
        int numOfEnteries = (int) StreamSupport.stream(stateCodeCsvIterable.spliterator(), false).count();
         return numOfEnteries;
     }
-
-    private <E>Iterator<E> getCsvFileIterator(Reader reader,Class csvClass) {
-        CsvToBean<E> csvToBean;
-        Iterator<E> censusCSVIterator;
-        CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
-        csvToBeanBuilder.withType(csvClass);
-        csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-        csvToBean = csvToBeanBuilder.build();
-        censusCSVIterator = csvToBean.iterator();
-        return censusCSVIterator;
-    }
 }
