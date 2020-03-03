@@ -14,7 +14,7 @@ public class CensusAnalyser {
     public int loadIndiaCensusData(String csvFilePath) {
         Iterator<IndiaCensusCSV> censusCSVIterator;
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
-            censusCSVIterator = getCsvFileIterator(reader,IndiaCensusCSV.class);
+            censusCSVIterator = new OpenCsvBuilder().getCsvFileIterator(reader,IndiaCensusCSV.class);
             Iterable<IndiaCensusCSV> censusIterable = () -> censusCSVIterator;
             int namOfEateries = (int) StreamSupport.stream(censusIterable.spliterator(), false).count();
             return namOfEateries;
@@ -26,7 +26,7 @@ public class CensusAnalyser {
 
     public int loadIndianStateCode(String stateCsvFilePath) {
         try (Reader reader = Files.newBufferedReader(Paths.get(stateCsvFilePath));) {
-            Iterator<IndianStateCodeCsv> stateCodeIterator = getCsvFileIterator(reader,IndianStateCodeCsv.class);
+            Iterator<IndianStateCodeCsv> stateCodeIterator = new OpenCsvBuilder().getCsvFileIterator(reader,IndianStateCodeCsv.class);
             return getCount(stateCodeIterator);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
